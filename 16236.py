@@ -13,15 +13,12 @@ for i in range(N):
 dx = [-1, 1, 0, 0]
 dy = [0, 0, -1, 1]
 
-
-
 fish_cnt = 0
 baby_size = 2
 answer = 0
 
 while True:
-#아래가 계속 반복된다
-    visited = set() #need -> should be updated every time
+    visited = set()
     
     q = deque()
     q.append((baby_x, baby_y, 0))
@@ -39,17 +36,17 @@ while True:
                 min_distance = cur_cnt
                 possible_fish.append((cur_x, cur_y)) 
                 
-        for d in range(4):
-            next_x = cur_x + dx[d]
-            next_y = cur_y + dy[d]
-        
-            if 0 <= next_x < N and 0 <= next_y < N:
-                if (next_x, next_y) not in visited:
-                    q.append((next_x, next_y, cur_cnt+1))
-                    visited.add((next_x, next_y))
+        if cur_cnt < min_distance:
+            for d in range(4):
+                next_x = cur_x + dx[d]
+                next_y = cur_y + dy[d]
+            
+                if 0 <= next_x < N and 0 <= next_y < N:
+                    if graph[next_x][next_y] <= baby_size and (next_x, next_y) not in visited:
+                        q.append((next_x, next_y, cur_cnt+1))
+                        visited.add((next_x, next_y))
                     
     possible_fish.sort(key=lambda x : (x[0], x[1]))
-    
 
     if possible_fish:
         graph[baby_x][baby_y] = 0
@@ -63,8 +60,4 @@ while True:
     else:    
         break
     
-    print(possible_fish, answer, min_distance)
-    for g in graph:
-        print(g)
-
 print(answer)
