@@ -5,6 +5,8 @@ R, C, T = map(int, input().split())
 graph = []
 for _ in range(R):
     graph.append(list(map(int, input().split())))
+dx = [-1, 1, 0, 0]
+dy = [0, 0, -1, 1]
 
 air = []
 
