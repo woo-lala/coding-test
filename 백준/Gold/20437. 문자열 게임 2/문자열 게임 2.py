@@ -18,9 +18,7 @@ for _ in range(T):
         value = memo[k]
         if m < K:
             continue
-        for i in range(m):
-            if (i + K - 1) >= m:
-                break
+        for i in range(m - K + 1):
             a = value[i+K-1] - value[i] + 1
             if a not in possible:
                 possible.add(a)
