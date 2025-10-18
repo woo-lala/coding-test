@@ -1,0 +1,33 @@
+-- 보호소에서는 몇 시에 입양이 가장 활발하게 일어나는지 알아보려 합니다. 0시부터 23시까지, 각 시간대별로 입양이 몇 건이나 발생했는지 조회하는 SQL문을 작성해주세요. 이때 결과는 시간대 순으로 정렬해야 합니다.
+
+#3가지 풀이
+
+WITH RECURSIVE A AS (
+    SELECT 0 AS HOUR #anchor
+    UNION ALL
+    SELECT HOUR + 1 #recursive
+    FROM A
+    WHERE HOUR < 23 #base condition
+)
+# SELECT HOUR, COUNT(ANIMAL_ID) AS COUNT
+# FROM A
+#      LEFT JOIN ANIMAL_OUTS ON HOUR = HOUR(DATETIME)
+# GROUP BY HOUR
+# ORDER BY HOUR;
+
+
+SELECT A.HOUR, COUNT(o.ANIMAL_ID) AS COUNT
+FROM A
+LEFT JOIN ANIMAL_OUTS o
+ON HOUR(o.DATETIME) = A.HOUR
+GROUP BY A.HOUR
+ORDER BY A.HOUR;
+
+# SELECT h.HOUR, COALESCE(a.COUNT, 0) COUNT
+# FROM HOUR_TABLE h
+# LEFT JOIN (
+#     SELECT HOUR(o.DATETIME) HOUR, COUNT(o.ANIMAL_ID) AS COUNT
+#     FROM ANIMAL_OUTS o
+#     GROUP BY HOUR(o.DATETIME)) a
+# ON a.HOUR = h.HOUR
+# ORDER BY h.HOUR;
